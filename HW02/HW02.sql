@@ -69,12 +69,12 @@ select  so.OrderID [OrderID],
 		format (so.OrderDate, 'dd.MM.yyyy') [Дата заказа],
 		datename (month, so.OrderDate) [Название месяца],
 		datepart (quarter, so.OrderDate) [Номер квартала],
-		datepart (month, so.OrderDate)/5+1,
 		sc.CustomerName [Имя клиента] 
 from	Sales.Orders so
 		join Sales.Customers sc on so.CustomerID = sc.CustomerID
 		join Sales.OrderLines sol on so.OrderID = sol.OrderID
 		join Warehouse.StockItems wsi on wsi.StockItemID = sol.StockItemID
+where	(sol.UnitPrice > 100 or sol.Quantity > 20) and sol.PickingCompletedWhen is not Null
 order by datepart (quarter, so.OrderDate) asc, format (so.OrderDate, 'dd.MM.yyyy') asc
 
 
@@ -86,12 +86,12 @@ select  so.OrderID [OrderID],
 		format (so.OrderDate, 'dd.MM.yyyy') [Дата заказа],
 		datename (month, so.OrderDate) [Название месяца],
 		datepart (quarter, so.OrderDate) [Номер квартала],
-		datepart (month, so.OrderDate)/5+1,
 		sc.CustomerName [Имя клиента] 
 from	Sales.Orders so
 		join Sales.Customers sc on so.CustomerID = sc.CustomerID
 		join Sales.OrderLines sol on so.OrderID = sol.OrderID
 		join Warehouse.StockItems wsi on wsi.StockItemID = sol.StockItemID
+where	(sol.UnitPrice > 100 or sol.Quantity > 20) and sol.PickingCompletedWhen is not Null
 order by datepart (quarter, so.OrderDate) asc, format (so.OrderDate, 'dd.MM.yyyy') asc offset (@pagenum-1) * @pagesize rows
 fetch next @pagesize rows only
 
